@@ -15,3 +15,9 @@ app.include_router(skoleferie.router)
 @app.get("/")
 def root():
     return {"message": "MBU OS2Forms API is running"}
+
+
+@app.get("/health", tags=["health"])
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "ok"}
