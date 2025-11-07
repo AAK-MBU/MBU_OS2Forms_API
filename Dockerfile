@@ -72,11 +72,11 @@ RUN rm -f .env
 USER appuser
 
 # Expose port
-EXPOSE 8000
+EXPOSE 8020
 
 # Add health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:8020/health || exit 1
 
 # Add metadata labels
 LABEL maintainer="AAK-MBU" \
@@ -84,4 +84,4 @@ LABEL maintainer="AAK-MBU" \
       description="API for OS2Forms integration"
 
 # Use exec form for proper signal handling
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8020"]
