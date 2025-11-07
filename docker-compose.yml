@@ -1,0 +1,19 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: os2forms-api
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      - ./app:/app/app
+    networks:
+      edge:
+        aliases:
+          - os2forms-api
+
+networks:
+  edge:
+    external: true
