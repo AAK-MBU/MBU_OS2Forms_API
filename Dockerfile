@@ -84,4 +84,5 @@ LABEL maintainer="AAK-MBU" \
       description="API for OS2Forms integration"
 
 # Use exec form for proper signal handling
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8020"]
+# CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8020"]
+CMD ["sh", "-c", "uv run uvicorn app.main:app --host 0.0.0.0 --port 8020"]
