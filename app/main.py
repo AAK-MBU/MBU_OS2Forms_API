@@ -1,10 +1,19 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.api import befordring, udskrivning, skoleferie
 
 app = FastAPI(
     title="MBU OS2Forms API",
     description="Simple API for OS2Forms integrations",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify the OS2Forms domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(befordring.router)
