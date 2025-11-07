@@ -6,15 +6,14 @@ services:
     container_name: os2forms-api
     env_file:
       - .env
-    ports:
-      - "8000:8000"
     restart: unless-stopped
     volumes:
       - ./app:/app/app
-      - ./.env:/app/.env:ro
     networks:
-      - process-network
+      edge:
+        aliases:
+          - os2forms-api
 
 networks:
-  process-network:
-    driver: bridge
+  edge:
+    external: true

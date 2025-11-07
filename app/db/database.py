@@ -52,3 +52,18 @@ def get_session() -> Generator[Session, None, None]:
 
 
 SessionDep = Annotated[Session, Depends(get_session)]
+
+
+if __name__ == "__main__":
+    from sqlalchemy import text
+
+    print("🔄 Testing database connection...")
+
+    try:
+        with Session(engine) as session:
+            result = session.execute(text("SELECT GETDATE() AS current_time")).fetchone()
+            print("✅ Database connection successful!")
+            print("Current time on SQL Server:", result.current_time)
+    except Exception as e:
+        print("❌ Database connection failed:")
+        print(e)

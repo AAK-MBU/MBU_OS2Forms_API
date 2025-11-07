@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     DEBUG: bool = Field(default=False)
 
     # API settings
-    API_V1_PREFIX: str = "/api/v1"
+    API_PREFIX: str = "/api"
 
     # Database settings - Full connection string
     DATABASE_URL: str | None = Field(default=None, description="Full database connection URL")
