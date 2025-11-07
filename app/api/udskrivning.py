@@ -1,6 +1,12 @@
 """API endpoints for Udskrivning functionalities."""
 
+import os
+
 from io import StringIO
+
+from sqlalchemy import create_engine, text
+
+import urllib.parse
 
 from fastapi import APIRouter
 
@@ -108,3 +114,34 @@ def get_citizen(cpr: str):
         citizen = [f"{first_name} {last_name}"]
 
     return citizen
+
+
+@router.get("/db-check")
+def db_connection_check():
+    """
+    Simple DB connection check to verify connectivity and authentication.
+    """
+
+    conn_str = os.getenv("DBCONNECTIONSTRINGSOLTEQTAND")
+
+    if not conn_str:
+        return {"status": "error", "message": "No connection string found in environment."}
+
+    try:
+        encoded = urllib.parse.quote_plus(conn_str)
+        engine = create_engine(f"mssql+pyodbc:///?odbc_connect={encoded}")
+
+        with engine.connect() as conn:
+            result = conn.execute(text("SELECT GETDATE() AS current_time")).fetchone()
+
+            return {
+                "status": "success",
+                "message": "Database connection successful.",
+                "current_time": str(result.current_time),
+            }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": f"Database connection failed: {str(e)}"
+        }
