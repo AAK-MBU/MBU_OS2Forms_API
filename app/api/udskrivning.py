@@ -54,7 +54,7 @@ def get_tandlaeger():
     df = df[["Ydernr", "Praksisbetegnelse", "Adresse", "Postnr", "Post_navn"]]
 
     # Drop rows with missing must-have values
-    df = df.dropna(subset=["Ydernr", "Praksisbetegnelse", "Adresse"])
+    df = df.dropna(subset=["Praksisbetegnelse", "Adresse"])
 
     # Fill optional ones
     df["Postnr"] = df["Postnr"].fillna("").astype(str).str.replace(".0", "", regex=False)
