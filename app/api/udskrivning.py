@@ -26,7 +26,7 @@ def get_tandlaeger():
     TEST
     """
 
-    return {"id": "Hello World"}
+    return {"id": "1", "value": "Hello World"}
 
 # @router.get("/get_tandlaeger")
 # def get_tandlaeger():
