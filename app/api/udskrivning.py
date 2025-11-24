@@ -22,6 +22,8 @@ router = APIRouter(prefix="/os2forms/api/udskrivning", tags=["Udskrivning"])
 
 @router.get("/get_tandlaeger")
 def get_tandlaeger():
+    import logging
+    logging.warning("=== get_tandlaeger endpoint was called ===")
     return [{"id": "1", "value": "Hello World"}, {"id": "2", "value": "test"}]
 
 # @router.get("/get_tandlaeger")
