@@ -48,7 +48,8 @@ def get_tandlaeger():
         csv_link = "https://medcom.dk" + csv_link
 
     csv_response = requests.get(csv_link, timeout=10)
-    csv_response.encoding = "latin1"
+    # csv_response.encoding = "latin1"
+    csv_response.encoding = "utf-8"
 
     df = pd.read_csv(StringIO(csv_response.text), sep=";")
     df = df[["Ydernr", "Praksisbetegnelse", "Adresse", "Postnr", "Post_navn"]]
