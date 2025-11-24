@@ -22,7 +22,7 @@ router = APIRouter(prefix="/os2forms/api/udskrivning", tags=["Udskrivning"])
 
 @router.get("/get_tandlaeger")
 def get_tandlaeger():
-    return [{"id": "1", "value": "Hello World"}]
+    return [{"id": "1", "value": "Hello World"}, {"id": "2", "value": "test"}]
 
 # @router.get("/get_tandlaeger")
 # def get_tandlaeger():
