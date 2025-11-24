@@ -1,11 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import befordring, udskrivning, skoleferie
+from fastapi.responses import JSONResponse
 
 app = FastAPI(
     title="MBU OS2Forms API",
     description="Simple API for OS2Forms integrations",
-    version="1.0.0"
+    version="1.0.0",
+    default_response_class=JSONResponse
 )
 
 app.add_middleware(
