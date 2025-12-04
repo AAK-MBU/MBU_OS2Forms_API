@@ -16,7 +16,9 @@ def get_child_distance_to_school(cpr: str):
 
     child_return = []
 
-    child_data = fetch_child_distance_to_school(cpr=cpr)
+    string_cpr = str(cpr)
+
+    child_data = fetch_child_distance_to_school(cpr=string_cpr)
 
     if child_data.empty:
         child_return = ["Kunne ikke udregne barns distance"]
