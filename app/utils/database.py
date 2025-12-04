@@ -11,6 +11,51 @@ DBCONNECTIONSTRINGSERVER29 = os.getenv("DBCONNECTIONSTRINGSERVER29")
 
 DBCONNECTIONSTRINGSOLTEQTAND = os.getenv("DBCONNECTIONSTRINGSOLTEQTAND")
 
+DBCONNECTIONSTRINGPROD = os.getenv("DBCONNECTIONSTRINGPROD")
+
+
+def fetch_child_distance_to_school(cpr: str) -> pd.DataFrame:
+    """
+    Fetch child distance to school data from the database by CPR number.
+    """
+
+    query = f"""
+        WITH LatestTo AS (
+            SELECT
+                Cprnr,
+                MAX(valid_to_string) AS latest_to
+            FROM
+                [RPA].[rpa].[Skoleafstand]
+            WHERE
+                Cprnr = '{cpr}'
+            GROUP BY
+                Cprnr
+        )
+
+        SELECT
+            s.*
+        FROM
+            [RPA].[rpa].[Skoleafstand] s
+        INNER JOIN LatestTo l ON s.Cprnr = l.Cprnr AND s.valid_to_string = l.latest_to
+        WHERE
+            s.Cprnr = '{cpr}'
+            AND s.type = 'driving-car'
+        """
+
+    encoded_conn_str = urllib.parse.quote_plus(DBCONNECTIONSTRINGPROD)
+
+    engine = create_engine(f"mssql+pyodbc:///?odbc_connect={encoded_conn_str}")
+
+    try:
+        df = pd.read_sql(sql=query, con=engine)
+
+    except Exception as e:
+        print("Error during pd.read_sql:", e)
+
+        raise
+
+    return df
+
 
 def fetch_dentist_cvr_data(cvr: str) -> pd.DataFrame:
     """
