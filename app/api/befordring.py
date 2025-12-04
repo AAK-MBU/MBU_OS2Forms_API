@@ -19,7 +19,7 @@ def get_child_distance_to_school(cpr: str):
     child_data = fetch_child_distance_to_school(cpr=cpr)
 
     if child_data.empty:
-        child_return = ["Kunne udregne barns distance"]
+        child_return = ["Kunne ikke udregne barns distance"]
 
     else:
         distance_in_m = child_data["afstand"].iloc[0]
