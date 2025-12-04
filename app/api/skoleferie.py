@@ -1,3 +1,5 @@
+"""API endpoints for Skoleferie functionalities."""
+
 from fastapi import APIRouter
 
 router = APIRouter(prefix="/os2forms/api/skoleferie", tags=["Skoleferie"])
