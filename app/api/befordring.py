@@ -26,7 +26,7 @@ def get_child_distance_to_school(cpr: str):
     else:
         distance_in_m = child_data["afstand"].iloc[0]
 
-        distance_in_km = str(round((distance_in_m / 1000), 2))
+        distance_in_km = str(round((distance_in_m / 1000), 1))
 
         child_return = [distance_in_km]
 
