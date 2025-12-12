@@ -19,6 +19,9 @@ def fetch_child_distance_to_school(cpr: str) -> pd.DataFrame:
     Fetch child distance to school data from the database by CPR number.
     """
 
+    if not cpr or str(cpr).strip() in ("", "0"):
+        return pd.DataFrame()
+
     query = f"""
         WITH LatestTo AS (
             SELECT
