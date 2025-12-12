@@ -68,7 +68,7 @@ def fetch_dentist_cvr_data(cvr: str) -> pd.DataFrame:
             [hovedbranche_kode],
             [hovedbranche_kode_0]
         FROM
-            [LOIS].[CVR].[ProdEnhedGeoView]
+            [LOIS].[CVR].[JurEnhedKomGeoView]
         WHERE
             CVR_nummer = '{cvr}'
             AND (hovedbranche_kode = '862300' OR hovedbranche_kode_0 = '862300')
