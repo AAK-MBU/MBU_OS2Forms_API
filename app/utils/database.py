@@ -72,8 +72,6 @@ def fetch_dentist_cvr_data(cvr: str) -> pd.DataFrame:
         WHERE
             CVR_nummer = '{cvr}'
             AND (hovedbranche_kode = '862300' OR hovedbranche_kode_0 = '862300')
-        ORDER BY
-            ProdEnh_Navn ASC
     """
 
     encoded_conn_str = urllib.parse.quote_plus(DBCONNECTIONSTRINGSERVER29)
