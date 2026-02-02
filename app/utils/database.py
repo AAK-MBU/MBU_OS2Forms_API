@@ -67,14 +67,20 @@ def fetch_dentist_cvr_data(cvr: str) -> pd.DataFrame:
 
     query = f"""
         SELECT
-            [CVR_nummer],
-            [hovedbranche_kode],
-            [hovedbranche_kode_0]
+            jw.[CVR_nummer],
+            jw.[hovedbranche_kode],
+            jw.[hovedbranche_kode_0],
+            pw.[CVR_nummer],
+            pw.[hovedbranche_kode],
+            pw.[hovedbranche_kode_0]
         FROM
-            [LOIS].[CVR].[JurEnhedKomGeoView]
+            [LOIS].[CVR].[JurEnhedKomGeoView] jw
+        FULL OUTER JOIN
+            [LOIS].[CVR].[ProdEnhedGeoView] pw ON jw.CVR_nummer = pw.CVR_nummer
         WHERE
-            CVR_nummer = '{cvr}'
-            AND (hovedbranche_kode = '862300' OR hovedbranche_kode_0 = '862300')
+            (jw.CVR_nummer = '{cvr}' or pw.CVR_nummer = '{cvr}')
+            AND
+            (pw.hovedbranche_kode = '862300' OR jw.hovedbranche_kode_0 = '862300' or pw.hovedbranche_kode = '862300' OR pw.hovedbranche_kode_0 = '862300')
     """
 
     encoded_conn_str = urllib.parse.quote_plus(DBCONNECTIONSTRINGSERVER29)
