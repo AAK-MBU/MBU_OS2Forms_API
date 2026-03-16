@@ -1,5 +1,8 @@
 """API endpoints for Befordring functionalities."""
 
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
 from fastapi import APIRouter
 
 from app.utils.database import fetch_child_distance_to_school
@@ -7,29 +10,75 @@ from app.utils.database import fetch_child_distance_to_school
 router = APIRouter(prefix="/os2forms/api/befordring", tags=["Befordring"])
 
 
-@router.get("/get_child_distance_to_school/{cpr}")
-def get_child_distance_to_school(cpr: str):
+@router.get("/get_child_distance_to_school/{cpr}/{month_year}")
+def get_child_distance_to_school(cpr: str, month_year: str):
     """
-    Retrieve a child's distance to school based on their CPR number.
-    Distance return is in kilometers.
+    API endpoint to fetch a childs distance to school
     """
-
-    child_return = []
 
     string_cpr = str(cpr)
 
-    child_data = fetch_child_distance_to_school(cpr=string_cpr)
+    child_data = fetch_child_distance_to_school(
+        cpr=string_cpr,
+        month_year=month_year,
+    )
 
-    if child_data.empty:
-        child_return = ["Kunne ikke udregne barns distance"]
+    rows = child_data["TidspunktForBevilling"].tolist()
+
+    if not rows:
+        return [{"value": "Kunne ikke udregne barns distance"}]
+
+    if "Morgen og eftermiddag" in rows:
+        if len(rows) > 1:
+            return [{"value": "Kunne ikke udregne barns distance"}]
 
     else:
-        distance_in_m = child_data["afstand"].iloc[0]
+        if rows.count("Morgen") > 1 or rows.count("Eftermiddag") > 1:
+            return [{"value": "Kunne ikke udregne barns distance"}]
 
-        distance_in_km = str(round((distance_in_m / 1000), 1))
+    distance = child_data["BevilgetKoereAfstand"].iloc[0]
 
-        child_return = [distance_in_km]
+    return [{"value": str(distance)}]
 
-    print(f"child_return: {child_return}")
 
-    return child_return
+@router.get("/get_reporting_months")
+def get_reporting_months():
+    """
+    Return the current month and the previous 4 months
+    for OS2Forms dropdown selection.
+    """
+
+    months = []
+
+    month_names_da = {
+        1: "Januar",
+        2: "Februar",
+        3: "Marts",
+        4: "April",
+        5: "Maj",
+        6: "Juni",
+        7: "Juli",
+        8: "August",
+        9: "September",
+        10: "Oktober",
+        11: "November",
+        12: "December",
+    }
+
+    today = datetime.today()
+
+    for i in range(5):
+
+        date = today - relativedelta(months=i)
+
+        key = date.strftime("%Y-%m")
+        value = f"{month_names_da[date.month]} {date.year}"
+
+        months.append(
+            {
+                "key": key,
+                "value": value
+            }
+        )
+
+    return months
