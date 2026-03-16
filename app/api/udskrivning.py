@@ -4,9 +4,9 @@ import os
 
 from io import StringIO
 
-from sqlalchemy import create_engine, text
-
 import urllib.parse
+
+from sqlalchemy import create_engine, text
 
 from fastapi import APIRouter
 
@@ -19,6 +19,7 @@ from bs4 import BeautifulSoup
 from app.utils.database import fetch_dentist_cvr_data, fetch_citizen_data
 
 router = APIRouter(prefix="/os2forms/api/udskrivning", tags=["Udskrivning"])
+
 
 @router.get("/get_tandlaeger")
 def get_tandlaeger():

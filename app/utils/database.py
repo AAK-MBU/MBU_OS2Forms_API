@@ -3,9 +3,14 @@
 import os
 import urllib.parse
 
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
 import pandas as pd
 
 from sqlalchemy import create_engine
+
+from app.utils import helper_functions
 
 DBCONNECTIONSTRINGSERVER29 = os.getenv("DBCONNECTIONSTRINGSERVER29")
 
@@ -14,50 +19,47 @@ DBCONNECTIONSTRINGSOLTEQTAND = os.getenv("DBCONNECTIONSTRINGSOLTEQTAND")
 DBCONNECTIONSTRINGPROD = os.getenv("DBCONNECTIONSTRINGPROD")
 
 
-def fetch_child_distance_to_school(cpr: str) -> pd.DataFrame:
+def fetch_child_distance_to_school(cpr: str, month_year: str):
     """
-    Fetch child distance to school data from the database by CPR number.
+    Fetch a childs befordrings data
     """
 
-    if not cpr or str(cpr).strip() in ("", "0"):
+    cpr = str(cpr).strip()
+
+    if not cpr or cpr == "0":
         return pd.DataFrame()
 
-    query = f"""
-        WITH LatestTo AS (
-            SELECT
-                Cprnr,
-                MAX(valid_to_string) AS latest_to
-            FROM
-                [RPA].[rpa].[Skoleafstand]
-            WHERE
-                Cprnr = '{cpr}'
-            GROUP BY
-                Cprnr
-        )
-
-        SELECT
-            s.*
-        FROM
-            [RPA].[rpa].[Skoleafstand] s
-        INNER JOIN LatestTo l ON s.Cprnr = l.Cprnr AND s.valid_to_string = l.latest_to
-        WHERE
-            s.Cprnr = '{cpr}'
-            AND s.type = 'driving-car'
-        """
-
-    encoded_conn_str = urllib.parse.quote_plus(DBCONNECTIONSTRINGPROD)
-
-    engine = create_engine(f"mssql+pyodbc:///?odbc_connect={encoded_conn_str}")
-
     try:
-        df = pd.read_sql(sql=query, con=engine)
+        start_date = datetime.strptime(month_year, "%Y-%m")
+    except ValueError:
+        return pd.DataFrame()
 
-    except Exception as e:
-        print("Error during pd.read_sql:", e)
+    end_date = start_date + relativedelta(months=1, days=-1)
 
-        raise
+    query = """
+        SELECT
+            TidspunktForBevilling,
+            BevilgetKoereAfstand
+        FROM
+            RPA.rpa.BefordringsData
+        WHERE
+            CPR = :cpr
+            AND BevillingAfKoerselstype = 'Egenbefordring'
+            AND BevillingFra <= :month_end
+            AND BevillingTil >= :month_start
+    """
 
-    return df
+    params = {
+        "cpr": cpr,
+        "month_start": start_date.date(),
+        "month_end": end_date.date(),
+    }
+
+    return helper_functions.run_sql_query(
+        query=query,
+        params=params,
+        conn_string=DBCONNECTIONSTRINGPROD
+    )
 
 
 def fetch_dentist_cvr_data(cvr: str) -> pd.DataFrame:
