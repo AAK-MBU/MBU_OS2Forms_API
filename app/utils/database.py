@@ -19,6 +19,107 @@ DBCONNECTIONSTRINGSOLTEQTAND = os.getenv("DBCONNECTIONSTRINGSOLTEQTAND")
 DBCONNECTIONSTRINGPROD = os.getenv("DBCONNECTIONSTRINGPROD")
 
 
+def dagtilbud_info(dagtilbud_losid: int):
+    """
+    Fetch a childs befordrings data
+    """
+
+    query = """
+        SELECT
+            d.LOSID,
+            a.antal_afdelinger,
+            CASE
+                WHEN d.EJERTYPE = 2 AND a.antal_afdelinger = 1 THEN 1
+                ELSE 0
+            END AS sdt
+
+        FROM
+            [BuMasterdata].[dbo].[VIEW_MD_STAMDATA_AKTUEL] d
+
+        CROSS APPLY (
+            SELECT COUNT(*) AS antal_afdelinger
+            FROM [BuMasterdata].[dbo].[VIEW_MD_STAMDATA_AKTUEL] a
+            WHERE
+                a.ORG_REFERENCE_TIL = d.LOSID
+                AND a.AFDTYPE != 3
+                AND a.HOMR = 3
+        ) a
+
+        WHERE
+            d.HOMR = 3
+            AND d.AFDTYPE = 1
+            AND d.LOSID = :dagtilbud_losid
+
+    """
+
+    params = {
+        "dagtilbud_losid": dagtilbud_losid,
+    }
+
+    return helper_functions.run_sql_query(
+        query=query,
+        params=params,
+        conn_string=DBCONNECTIONSTRINGPROD
+    )
+
+
+def fetch_dagtilbud_afdelinger(dagtilbud_losid: int):
+    """
+    Fetch a childs befordrings data
+    """
+
+    query = """
+        SELECT distinct
+            [LOSID],
+            [ENHNAVN]
+        FROM
+            [BuMasterdata].[dbo].[VIEW_MD_STAMDATA_AKTUEL]
+        WHERE
+            HOMR = 3 AND
+            AFDTYPE != 3 AND
+            ORG_REFERENCE_TIL = :dagtilbud_losid
+        order by
+            ENHNAVN
+    """
+
+    params = {
+        "dagtilbud_losid": dagtilbud_losid,
+    }
+
+    return helper_functions.run_sql_query(
+        query=query,
+        params=params,
+        conn_string=DBCONNECTIONSTRINGPROD
+    )
+
+
+def fetch_dagtilbud():
+    """
+    Fetch a childs befordrings data
+    """
+
+    query = """
+        SELECT distinct
+            [LOSID],
+            [DAGTBNR_TXT]
+        FROM
+            [BuMasterdata].[dbo].[VIEW_MD_STAMDATA_AKTUEL]
+        WHERE
+            HOMR = 3
+            AND AFDTYPE = 1
+        ORDER BY
+            DAGTBNR_TXT
+    """
+
+    params = {}
+
+    return helper_functions.run_sql_query(
+        query=query,
+        params=params,
+        conn_string=DBCONNECTIONSTRINGPROD
+    )
+
+
 def fetch_child_distance_to_school(cpr: str, month_year: str):
     """
     Fetch a childs befordrings data

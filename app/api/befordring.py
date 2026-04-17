@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 
 from fastapi import APIRouter
 
-from app.utils.database import fetch_child_distance_to_school
+from app.utils import database
 
 router = APIRouter(prefix="/os2forms/api/befordring", tags=["Befordring"])
 
@@ -18,7 +18,7 @@ def get_child_distance_to_school(cpr: str, month_year: str):
 
     string_cpr = str(cpr)
 
-    child_data = fetch_child_distance_to_school(
+    child_data = database.fetch_child_distance_to_school(
         cpr=string_cpr,
         month_year=month_year,
     )

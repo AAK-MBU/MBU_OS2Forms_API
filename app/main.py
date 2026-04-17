@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api import befordring, udskrivning, skoleferie
+from app.api import befordring, udskrivning, skoleferie, kommunal_frokost
 
 
 class UTF8JSONResponse(JSONResponse):
@@ -27,6 +27,7 @@ app.add_middleware(
 app.include_router(befordring.router)
 app.include_router(udskrivning.router)
 app.include_router(skoleferie.router)
+app.include_router(kommunal_frokost.router)
 
 
 @app.get("/")
