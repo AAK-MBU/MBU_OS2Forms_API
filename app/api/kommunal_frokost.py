@@ -20,7 +20,7 @@ def get_dagtilbud():
     for row in dagtilbud_df.itertuples():
         dagtilbud.append(
             {
-                "key": f"{row.LOSID}--{row.DAGTBNR_TXT}",
+                "key": f"{row.LOSID}--{row.DAGTBNR_TXT}--{row.antal_afdelinger}--{row.sdt}",
                 # "key": row.LOSID,
                 "value": row.DAGTBNR_TXT,
             }

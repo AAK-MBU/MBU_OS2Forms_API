@@ -99,16 +99,37 @@ def fetch_dagtilbud():
     """
 
     query = """
-        SELECT distinct
-            [LOSID],
-            [DAGTBNR_TXT]
+        SELECT
+            d.LOSID,
+            d.DAGTBNR_TXT,
+
+            COUNT(a.LOSID) AS antal_afdelinger,
+
+            CASE
+                WHEN d.EJERTYPE = 2 THEN 1
+                ELSE 0
+            END AS sdt
+
         FROM
-            [BuMasterdata].[dbo].[VIEW_MD_STAMDATA_AKTUEL]
+            [BuMasterdata].[dbo].[VIEW_MD_STAMDATA_AKTUEL] d
+
+        LEFT JOIN
+            [BuMasterdata].[dbo].[VIEW_MD_STAMDATA_AKTUEL] a
+            ON a.ORG_REFERENCE_TIL = d.LOSID
+            AND a.AFDTYPE != 3
+            AND a.HOMR = 3
+
         WHERE
-            HOMR = 3
-            AND AFDTYPE = 1
+            d.HOMR = 3
+            AND d.AFDTYPE = 1
+
+        GROUP BY
+            d.LOSID,
+            d.DAGTBNR_TXT,
+            d.EJERTYPE
+
         ORDER BY
-            DAGTBNR_TXT
+            d.DAGTBNR_TXT;
     """
 
     params = {}

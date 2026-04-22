@@ -11,28 +11,32 @@ license = {text = "MIT"}
 keywords = ["fastapi", "os2forms-api", "api"]
 
 dependencies = [
+    "automation-server-client @ git+https://github.com/odense-rpa/automation-server-client.git",
+    "beautifulsoup4",
+    "cryptography >= 43.0.0",
     "fastapi>=0.109.0",
-    "uvicorn[standard]>=0.27.0",
-    "sqlmodel>=0.0.14",
+    "fastapi-pagination>=0.14.3",
+    "mbu-dev-shared-components >= 0.4.1",
+    "office365-rest-python-client",
+    "openpyxl >= 3.1.2",
+    "pandas",
+    "Pillow == 11.0",
+    "portalocker",
     "pydantic>=2.5.3",
     "pydantic-settings>=2.1.0",
-    "sqlalchemy>=2.0.25",
     "pyodbc>=5.0.1",
+    "python-dateutil == 2.9.*",
     "python-dotenv>=1.0.0",
     "python-multipart>=0.0.6",
     "python-jose[cryptography]>=3.3.0",
-    "fastapi-pagination>=0.14.3",
-    "openpyxl >= 3.1.2",
     "requests_ntlm >= 1.2.0",
-    "python-dateutil == 2.9.*",
-    "cryptography >= 43.0.0",
-    "office365-rest-python-client",
-    "Pillow == 11.0",
-    "portalocker",
-    "mbu-dev-shared-components >= 0.4.1",
-    "pandas",
-    "beautifulsoup4",
+    "sqlalchemy>=2.0.25",
+    "sqlmodel>=0.0.14",
+    "uvicorn[standard]>=0.27.0",
 ]
+
+[tool.uv.sources]
+automation-server-client = { git = "https://github.com/odense-rpa/automation-server-client.git", tag = "v0.2.1" }
 
 [project.optional-dependencies]
 dev = [
