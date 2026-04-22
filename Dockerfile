@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     apt-transport-https \
     gnupg \
     unixodbc-dev \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy dependency files
