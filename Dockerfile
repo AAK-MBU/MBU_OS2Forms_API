@@ -86,4 +86,5 @@ LABEL maintainer="AAK-MBU" \
 
 # Use exec form for proper signal handling
 # CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8020"]
-CMD ["sh", "-c", "uv run uvicorn app.main:app --host 0.0.0.0 --port 8020"]
+# CMD ["sh", "-c", "uv run uvicorn app.main:app --host 0.0.0.0 --port 8020"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8020"]
