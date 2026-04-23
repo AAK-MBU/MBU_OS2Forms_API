@@ -9,6 +9,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./app:/app/app
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     networks:
       edge:
         aliases:
