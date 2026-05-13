@@ -103,7 +103,7 @@ def fetch_dagtilbud():
             d.LOSID,
             d.DAGTBNR_TXT,
 
-            COUNT(a.LOSID) AS antal_afdelinger,
+		    COUNT(DISTINCT a.LOSID) AS antal_afdelinger,
 
             CASE
                 WHEN d.EJERTYPE = 2 THEN 1
