@@ -1,6 +1,6 @@
 [project]
 name = "mbu_os2forms_api"
-version = "0.0.1"
+version = "0.0.2"
 description = "API for OS2Forms integration"
 authors = [
     {name = "MBU", email = "rpa@mbu.aarhus.dk"}

@@ -2,12 +2,10 @@
 
 import os
 import urllib.parse
-
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
 import pandas as pd
-
+from dateutil.relativedelta import relativedelta
 from sqlalchemy import create_engine
 
 from app.utils import helper_functions
@@ -57,9 +55,7 @@ def dagtilbud_info(dagtilbud_losid: int):
     }
 
     return helper_functions.run_sql_query(
-        query=query,
-        params=params,
-        conn_string=DBCONNECTIONSTRINGPROD
+        query=query, params=params, conn_string=DBCONNECTIONSTRINGPROD
     )
 
 
@@ -87,9 +83,7 @@ def fetch_dagtilbud_afdelinger(dagtilbud_losid: int):
     }
 
     return helper_functions.run_sql_query(
-        query=query,
-        params=params,
-        conn_string=DBCONNECTIONSTRINGPROD
+        query=query, params=params, conn_string=DBCONNECTIONSTRINGPROD
     )
 
 
@@ -135,9 +129,7 @@ def fetch_dagtilbud():
     params = {}
 
     return helper_functions.run_sql_query(
-        query=query,
-        params=params,
-        conn_string=DBCONNECTIONSTRINGPROD
+        query=query, params=params, conn_string=DBCONNECTIONSTRINGPROD
     )
 
 
@@ -178,9 +170,7 @@ def fetch_child_distance_to_school(cpr: str, month_year: str):
     }
 
     return helper_functions.run_sql_query(
-        query=query,
-        params=params,
-        conn_string=DBCONNECTIONSTRINGPROD
+        query=query, params=params, conn_string=DBCONNECTIONSTRINGPROD
     )
 
 
@@ -253,3 +243,36 @@ def fetch_citizen_data(cpr: str) -> pd.DataFrame:
         print("Error during pd.read_sql:", e)
 
     return df
+
+
+def fetch_processes(process_type: str = None):
+    """
+    Fetch all processes from the api.Processes table.
+    Optionally filter by processType.
+    """
+
+    query = """
+        SELECT
+            processId,
+            name,
+            processType,
+            description,
+            department,
+            isActive,
+            created
+        FROM
+            api.Processes
+        WHERE
+            (:process_type IS NULL OR processType = :process_type)
+        ORDER BY
+            processType,
+            name
+    """
+
+    params = {
+        "process_type": process_type,
+    }
+
+    return helper_functions.run_sql_query(
+        query=query, params=params, conn_string=DBCONNECTIONSTRINGPROD
+    )
