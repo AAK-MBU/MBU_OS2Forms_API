@@ -36,7 +36,12 @@ def get_child_distance_to_school(cpr: str, month_year: str):
         if rows.count("Morgen") > 1 or rows.count("Eftermiddag") > 1:
             return [{"value": "Kunne ikke udregne barns distance"}]
 
-    distance = child_data["BevilgetKoereAfstand"].iloc[0]
+    distances = child_data["BevilgetKoereAfstand"]
+
+    if distances.nunique(dropna=False) > 1:
+        return [{"value": "Kunne ikke udregne barns distance"}]
+
+    distance = distances.iloc[0]
 
     return [{"value": str(distance)}]
 
