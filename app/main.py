@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api import befordring, udskrivning, skoleferie, kommunal_frokost
+from app.api import befordring, kommunal_frokost, mbu_processes, skoleferie, udskrivning
 
 
 class UTF8JSONResponse(JSONResponse):
@@ -13,7 +13,7 @@ app = FastAPI(
     title="MBU OS2Forms API",
     description="Simple API for OS2Forms integrations",
     version="1.0.0",
-    default_response_class=UTF8JSONResponse
+    default_response_class=UTF8JSONResponse,
 )
 
 app.add_middleware(
@@ -28,6 +28,7 @@ app.include_router(befordring.router)
 app.include_router(kommunal_frokost.router)
 app.include_router(skoleferie.router)
 app.include_router(udskrivning.router)
+app.include_router(mbu_processes.router)
 
 
 @app.get("/")
