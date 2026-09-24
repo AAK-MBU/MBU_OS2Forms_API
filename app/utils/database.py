@@ -101,7 +101,7 @@ def fetch_dagtilbud():
     query = """
         SELECT
             d.LOSID,
-            d.DAGTBNR_TXT,
+            d.ENHNAVN,
 
 		    COUNT(DISTINCT a.LOSID) AS antal_afdelinger,
 
@@ -125,11 +125,11 @@ def fetch_dagtilbud():
 
         GROUP BY
             d.LOSID,
-            d.DAGTBNR_TXT,
+            d.ENHNAVN,
             d.EJERTYPE
 
         ORDER BY
-            d.DAGTBNR_TXT;
+            d.ENHNAVN;
     """
 
     params = {}
