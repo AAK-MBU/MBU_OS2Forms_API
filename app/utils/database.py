@@ -16,6 +16,7 @@ DBCONNECTIONSTRINGSOLTEQTAND = os.getenv("DBCONNECTIONSTRINGSOLTEQTAND")
 
 DBCONNECTIONSTRINGPROD = os.getenv("DBCONNECTIONSTRINGPROD")
 
+DBCONNECTIONSTRINGDEV = os.getenv("DBCONNECTIONSTRINGDEV")
 
 def dagtilbud_info(dagtilbud_losid: int):
     """
@@ -171,6 +172,35 @@ def fetch_child_distance_to_school(cpr: str, month_year: str):
 
     return helper_functions.run_sql_query(
         query=query, params=params, conn_string=DBCONNECTIONSTRINGPROD
+    )
+
+
+def fetch_child_modersmaal(cpr: str) -> pd.DataFrame:
+    """
+    Fetch a childs modersmaal
+    """
+
+    cpr = str(cpr).strip()
+
+    if not cpr or cpr == "0":
+        return pd.DataFrame()
+
+    query = """
+        SELECT DISTINCT
+            [cpr],
+            [modersmaal]
+        FROM
+            [RPA].[rpa].[Modersmaal]
+        WHERE
+            cpr = :cpr
+    """
+
+    params = {
+        "cpr": cpr,
+    }
+
+    return helper_functions.run_sql_query(
+        query=query, params=params, conn_string=DBCONNECTIONSTRINGDEV
     )
 
 
