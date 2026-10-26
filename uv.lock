@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.13"
 
 [[package]]
@@ -386,7 +386,7 @@ wheels = [
 
 [[package]]
 name = "mbu-dev-shared-components"
-version = "4.2.3"
+version = "4.4.11"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
@@ -394,9 +394,9 @@ dependencies = [
     { name = "pyodbc" },
     { name = "python-dateutil" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c2/13/d92f570560183d5c8c95fc3971ff9b775de02726d3cab3633aa091d852a9/mbu_dev_shared_components-4.2.3.tar.gz", hash = "sha256:2634c5a80eade8f84f3d3322342fc5a6bb5f36f0fabc3bbd1a90410da0554b75", size = 48538, upload-time = "2025-11-06T13:44:27.957Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7b/13/e8a8606b7122601495fb92a0a45843c4874c12a3f77b78bc385568b2b4f7/mbu_dev_shared_components-4.4.11.tar.gz", hash = "sha256:18d97fa11daf8e9becec4c438d82170ff0722f0f30f386d21b4d5cb30efeb7fb", size = 51956, upload-time = "2026-07-03T09:57:04.278Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/96/ac/e0ddabd5b89ea8b7d95a44b7ebb7975d85814d1a7cf64623583bc20f4fd5/mbu_dev_shared_components-4.2.3-py3-none-any.whl", hash = "sha256:07887753f8743f18fcc4fd4d000a3768c549d9883da8e4aa1060fa4db275fe96", size = 64201, upload-time = "2025-11-06T13:44:26.514Z" },
+    { url = "https://files.pythonhosted.org/packages/1b/00/9ff4d309a227494d996e5f75b755af32f6583bc6d35eddfcc80655c3a10e/mbu_dev_shared_components-4.4.11-py3-none-any.whl", hash = "sha256:dec4af657f29670e2cc67f80e106ebe23c24f4b466ce62fea11b94f9e45d40b9", size = 68525, upload-time = "2026-07-03T09:57:02.981Z" },
 ]
 
 [[package]]
