@@ -11,3 +11,18 @@ updates:
     target-branch: "develop"
     schedule:
       interval: "daily"
+
+open-pull-requests.limit: 10
+
+groups:
+  patch-updates:
+    update-types:
+      - "patch"
+
+  minor-updates:
+    update-types:
+      - "minor"
+
+  major-updates:
+    update-types:
+      - "major"
