@@ -4,7 +4,8 @@
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
-# set target brach til develop fremfor main)updates:
+
+updates:
   - package-ecosystem: "uv"
     directory: "/"
     schedule:
