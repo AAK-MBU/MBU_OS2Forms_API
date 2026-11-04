@@ -109,13 +109,12 @@ wheels = [
 
 [[package]]
 name = "automation-server-client"
-version = "0.2.1"
-source = { git = "https://github.com/odense-rpa/automation-server-client.git?tag=v0.2.1#b1cfda29d171d65e48f27ac46b1014c6d6096cd8" }
+version = "0.3.0"
+source = { git = "https://github.com/odense-rpa/automation-server-client.git?tag=v0.3.0#ebff2af4cf40076956db790395b40416e0fd5587" }
 dependencies = [
     { name = "httpx" },
     { name = "pydantic" },
     { name = "python-dotenv" },
-    { name = "requests" },
 ]
 
 [[package]]
@@ -584,7 +583,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "automation-server-client", git = "https://github.com/odense-rpa/automation-server-client.git?tag=v0.2.1" },
+    { name = "automation-server-client", git = "https://github.com/odense-rpa/automation-server-client.git?tag=v0.3.0" },
     { name = "beautifulsoup4" },
     { name = "cryptography", specifier = ">=43.0.0" },
     { name = "fastapi", specifier = ">=0.109.0" },
